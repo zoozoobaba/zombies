@@ -15,4 +15,13 @@ describe("Person", function() {
       newPerson.direction.should.be.within(1,100);
     });
   });
+
+  describe("isZombie", function() {
+    it("returns true if life is equal to zero", function() {
+      var newPerson = Object.create(Person);
+      newPerson.life = 0;
+      newPerson.isZombie().should.equal(true);
+    });
+  });
+
 });
