@@ -15,6 +15,16 @@ var Person = {
     } else {
       return false;
     };
+  },
+
+  nextTo: function(othersCoordintes) {
+    if ( (this.coordinates[0] == othersCoordintes[0]) && ( (this.coordinates[1] == othersCoordintes[1]+1) || (this.coordinates[1] == othersCoordintes[1]-1) ) ) { //check above and below
+      return true; 
+    } else if ( (this.coordinates[1] == othersCoordintes[1]) && ( (this.coordinates[0] == othersCoordintes[0]+1) || (this.coordinates[0] == othersCoordintes[0]-1) ) ) { //check left and right
+      return true; 
+    } else {
+      return false;
+    };
   }
 
 };

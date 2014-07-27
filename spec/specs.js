@@ -24,4 +24,16 @@ describe("Person", function() {
     });
   });
 
+  describe("nextTo", function() {
+    it("returns true if the coordinates of another Person are directly next to them", function() {
+      var newPerson = Object.create(Person);
+      newPerson.coordinates = [3,3];
+      newPerson.nextTo([3,2]).should.equal(true);
+      newPerson.nextTo([3,4]).should.equal(true);
+      newPerson.nextTo([2,3]).should.equal(true);
+      newPerson.nextTo([4,3]).should.equal(true);
+      newPerson.nextTo([1,3]).should.equal(false);
+    });
+  });
+
 });
