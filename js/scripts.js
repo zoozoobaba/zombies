@@ -43,15 +43,26 @@ var Person = {
     this.life = 0;
   }
 
-  
-
 };
 
-
-
-
+var people = 1
 
 $(document).ready(function(){
-  $("#start").click(function(event) {
+  for (var j = 1; j < 11; j++) {
+    $("#grid tbody").append("<tr id=row"+j+"></tr>")
+    for (var i = 1; i < 11; i++) { 
+      $("#row"+j).append("<td #x"+j+i+">X</td>");
+    };
+  };
+
+
+  $("#add-human-btn").click(function(event) {
+    var x = Object.create(Person);
+    x.initialize();
+    console.log(x.coordinates);
+
+   
+
+
   });
 });
