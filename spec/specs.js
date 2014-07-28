@@ -21,18 +21,33 @@ describe("Person", function() {
       var newPerson = Object.create(Person);
       newPerson.life = 0;
       newPerson.isZombie().should.equal(true);
+      newPerson.life = 23;
+      newPerson.isZombie().should.equal(false);
     });
   });
 
   describe("nextTo", function() {
-    it("returns true if the coordinates of another Person are directly next to them", function() {
+    it("returns OneSpace or TwoSpace if the coordinates of another Person are directly next/near to them", function() {
       var newPerson = Object.create(Person);
       newPerson.coordinates = [3,3];
-      newPerson.nextTo([3,2]).should.equal(true);
-      newPerson.nextTo([3,4]).should.equal(true);
-      newPerson.nextTo([2,3]).should.equal(true);
-      newPerson.nextTo([4,3]).should.equal(true);
-      newPerson.nextTo([1,3]).should.equal(false);
+      newPerson.nextTo([3,2]).should.equal("OneSpace");
+      newPerson.nextTo([3,4]).should.equal("OneSpace");
+      newPerson.nextTo([2,3]).should.equal("OneSpace");
+      newPerson.nextTo([4,3]).should.equal("OneSpace");
+      newPerson.nextTo([3,1]).should.equal("TwoSpace");
+      newPerson.nextTo([3,5]).should.equal("TwoSpace");
+      newPerson.nextTo([1,3]).should.equal("TwoSpace");
+      newPerson.nextTo([5,3]).should.equal("TwoSpace");      
+      newPerson.nextTo([6,3]).should.equal(false);
+    });
+  });
+
+  describe("humanAttacked", function() {
+    it("returns true if the player is next to the zombie", function() {
+      var newPerson = Object.create(Person);
+      newPerson.coordinates = [3,3];
+      newPerson.humanAttacked([3,2]).should.equal(true);
+      newPerson.humanAttacked([1,3]).should.equal(false);
     });
   });
 
