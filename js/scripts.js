@@ -37,6 +37,10 @@ var Person = {
     } else {
       return false;
     };
+  },
+
+  infectHuman: function() {
+    this.life = 0;
   }
 
   

@@ -51,4 +51,12 @@ describe("Person", function() {
     });
   });
 
+  describe("infectHuman", function () {
+    it("reduces the life of a human to zero", function() {
+      var newPerson = Object.create(Person);
+      newPerson.infectHuman();
+      newPerson.life.should.equal(0);
+    });
+  });
+
 });
