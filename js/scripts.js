@@ -44,12 +44,19 @@ var Person = {
   },
 
   locationOnGrid: function(person) {
-    $("#x"+ person.coordinates[0] + person.coordinates[1]).css({"color":"blue"});
-  }
+    if (this.isZombie) {
+      color = "blue";
+    } else {
+      color = "lime";
+    };
+    console.log(color);
 
+    $("#x"+ person.coordinates[0] + person.coordinates[1]).css({"color":color});
+  }
 };
 
 var people = []
+
 
 $(document).ready(function(){
   for (var j = 1; j < 11; j++) {
@@ -60,12 +67,37 @@ $(document).ready(function(){
   };
 
 
+
   $("#add-human-btn").click(function(event) {
     var newHuman = Object.create(Person);
     newHuman.initialize();
     newHuman.locationOnGrid(newHuman)
     people.push(newHuman);
-
-
   });
+
+  var timer = window.setInterval( function() {
+    people[0].moveAround();
+    if (people[0].direction <= 25) {
+      //Move North
+      $("#x"+ people[0].coordinates[0] + people[0].coordinates[1]).css({"color":"black"})
+      people[0].coordinates[0] = people[0].coordinates[0]-1;
+      $("#x"+ people[0].coordinates[0] + people[0].coordinates[1]).css({"color":"blue"})
+    } else if (people[0].direction > 25 && people[0].direction <= 50 ) {
+      //Move East
+      $("#x"+ people[0].coordinates[0] + people[0].coordinates[1]).css({"color":"black"})
+      people[0].coordinates[1] = people[0].coordinates[1]+1;
+      $("#x"+ people[0].coordinates[0] + people[0].coordinates[1]).css({"color":"blue"})
+    } else if (people[0].direction > 50 && people[0].direction <= 75 ) {
+      //Move South
+      $("#x"+ people[0].coordinates[0] + people[0].coordinates[1]).css({"color":"black"})
+      people[0].coordinates[0] = people[0].coordinates[0]+1;
+      $("#x"+ people[0].coordinates[0] + people[0].coordinates[1]).css({"color":"blue"})
+    } else if (people[0].direction > 75) {
+      //Move West
+      $("#x"+ people[0].coordinates[0] + people[0].coordinates[1]).css({"color":"black"})
+      people[0].coordinates[1] = people[0].coordinates[1]-1;
+      $("#x"+ people[0].coordinates[0] + people[0].coordinates[1]).css({"color":"blue"})
+
+    };
+  }, 1000);
 });
