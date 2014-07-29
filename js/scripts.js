@@ -41,27 +41,30 @@ var Person = {
 
   infectHuman: function() {
     this.life = 0;
+  },
+
+  locationOnGrid: function(person) {
+    $("#x"+ person.coordinates[0] + person.coordinates[1]).css({"color":"blue"});
   }
 
 };
 
-var people = 1
+var people = []
 
 $(document).ready(function(){
   for (var j = 1; j < 11; j++) {
     $("#grid tbody").append("<tr id=row"+j+"></tr>")
     for (var i = 1; i < 11; i++) { 
-      $("#row"+j).append("<td #x"+j+i+">X</td>");
+      $("#row"+j).append("<td id=x"+j+i+">X</td>");
     };
   };
 
 
   $("#add-human-btn").click(function(event) {
-    var x = Object.create(Person);
-    x.initialize();
-    console.log(x.coordinates);
-
-   
+    var newHuman = Object.create(Person);
+    newHuman.initialize();
+    newHuman.locationOnGrid(newHuman)
+    people.push(newHuman);
 
 
   });
