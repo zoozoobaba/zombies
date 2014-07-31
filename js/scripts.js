@@ -53,23 +53,22 @@ var Person = {
   },
 
   atGridEdge: function() {
-    console.log(this.coordinates)
     if (this.coordinates[1] === 1 && this.coordinates[0] === 1) {
-      return 'nw';
+      return "nw";
     } else if (this.coordinates[1] === 1 && this.coordinates[0] === gridSizeX) {
-      return 'ne';
+      return "ne";
     } else if (this.coordinates[1] === gridSizeY && this.coordinates[0] === 1) {
-      return 'sw';
+      return "sw";
     } else if (this.coordinates[1] === gridSizeY && this.coordinates[0] === gridSizeX) {
-      return 'se';
+      return "se";
     } else if (this.coordinates[1] === 1) {
-      return 'n';
+      return "n";
     } else if (this.coordinates[0] === gridSizeX) {
-      return 'e';
+      return "e";
     } else if (this.coordinates[1] === gridSizeY) {
-      return 's';
+      return "s";
     } else if (this.coordinates[0] === 1) {
-      return 'w';
+      return "w";
     } else {
       return false
     };
@@ -77,39 +76,48 @@ var Person = {
 
 
   moveAround: function() {
-    console.log(this.atGridEdge());
-    // var setDirection = false
+    var setDirection = "don't move"
+
     // do {
-    this.direction = Math.ceil(Math.random() * 4)  //1=North, 2=East, 3=South, 4=West
-    //   if atGridEdge() === "north" && this.direction === 1 ) {
-        // setDirection = true;
-    //   }
+      this.direction = Math.ceil(Math.random() * 4)  //1=North, 2=East, 3=South, 4=West
+
+    //   if (this.direction === 1) {
+    //     console.log("one");
+    //   } else if (this.direction === 2) {
+    //     console.log("two");
+    //   } else if (this.direction === 3) {
+    //     console.log("three");
+    //   } else {
+    //     console.log("four");
+    //     setDirection = "move";
+    //   };
 
     // }
-    // while (setDirection = false);
-    // setDirection = true
+    // while (setDirection = "don't move");
+
+    // console.log("EXITED FROM DO WHILE");
 
 
 
     if (this.direction === 1) {
       //Move North
       $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"black"})
-      this.coordinates[0] = this.coordinates[0]-1;
+      this.coordinates[1] = this.coordinates[1]-1;
       $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"blue"})
     } else if (this.direction === 2 ) {
       //Move East
       $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"black"})
-      this.coordinates[1] = this.coordinates[1]+1;
+      this.coordinates[0] = this.coordinates[0]+1;
       $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"blue"})
     } else if (this.direction === 3 ) {
       //Move South
       $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"black"})
-      this.coordinates[0] = this.coordinates[0]+1;
+      this.coordinates[1] = this.coordinates[1]+1;
       $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"blue"})
     } else if (this.direction === 4) {
       //Move West
       $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"black"})
-      this.coordinates[1] = this.coordinates[1]-1;
+      this.coordinates[0] = this.coordinates[0]-1;
       $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"blue"})
     }
   }
