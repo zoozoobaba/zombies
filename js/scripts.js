@@ -29,26 +29,10 @@ var Person = {
     };
   },
 
-  humanAttacked: function(othersCoordintes) {
-    if (this.nextTo(othersCoordintes) == "OneSpace") {
-      return true
-    } else {
-      return false;
-    };
-  },
-
   infectHuman: function() {
     this.life = 0;
     this.player_color = "lime";
-  },
-
-  locationOnGrid: function() {
-    if (this.isZombie) {
-      this.player_color = "blue";
-    } else {
-      this.player_color = "lime";
-    };
-    $("#x"+ this.coordinates[1] + this.coordinates[0]).css({"color":this.player_color});
+    this.speed = 7;
   },
 
   atGridEdge: function() {
@@ -99,24 +83,24 @@ var Person = {
     this.directionToMove()
     if (this.direction === 1) {
       //Move North
-      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"black"})
+      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"background-color":"transparent"})
       this.coordinates[1] = this.coordinates[1]-1;
-      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":this.player_color})
+      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"background-color":this.player_color})
     } else if (this.direction === 2 ) {
       //Move East
-      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"black"})
+      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"background-color":"transparent"})
       this.coordinates[0] = this.coordinates[0]+1;
-      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":this.player_color})
+      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"background-color":this.player_color})
     } else if (this.direction === 3 ) {
       //Move South
-      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"black"})
+      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"background-color":"transparent"})
       this.coordinates[1] = this.coordinates[1]+1;
-      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":this.player_color})
+      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"background-color":this.player_color})
     } else if (this.direction === 4) {
       //Move West
-      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"black"})
+      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"background-color":"transparent"})
       this.coordinates[0] = this.coordinates[0]-1;
-      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":this.player_color})
+      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"background-color":this.player_color})
     }
   }
 };
@@ -125,23 +109,21 @@ var people = []
 
 $(document).ready(function(){
 
-  gridSizeX = 12
-  gridSizeY = 12
-  // 2 loops to add rows and columns in HTML with a IDs for each <td>
+  gridSizeX = 25;
+  gridSizeY = 25;
   for (var j = 1; j < gridSizeY+1; j++) {
     $("#grid tbody").append("<tr id=row"+j+"></tr>")
     for (var i = 1; i < gridSizeX+1; i++) {
-      $("#row"+j).append("<td id=x"+i+j+">X</td>");
+      $("#row"+j).append("<td id=x"+i+j+"></td>");
     };
   };
 
-  //add a new instance of a human
   $("#add-human-btn").click(function(event) {
     var newHuman = Object.create(Person);
     newHuman.initialize();
     people.push(newHuman);
     newHuman.coordinates = [Math.ceil(Math.random() * gridSizeX), Math.ceil(Math.random() * gridSizeY)]
-    $("#x"+ newHuman.coordinates[0] + newHuman.coordinates[1]).css({"color":newHuman.player_color})
+    $("#x"+ newHuman.coordinates[0] + newHuman.coordinates[1]).css({"background-color":newHuman.player_color})
 
     var count = 2
 
@@ -152,17 +134,21 @@ $(document).ready(function(){
 
 
       people.forEach(function(person) {
-        if (newHuman.nextTo(person.coordinates) && person.isZombie()) {
+        if ( (newHuman.nextTo(person.coordinates) === "OneSpace") && person.isZombie()) {
           newHuman.infectHuman();
         };
+
+        if ( (newHuman.nextTo(person.coordinates) === "TwoSpace") && person.isZombie() && !newHuman.isZombie()) {
+          newHuman.speed = 2;
+        };
+
       });
 
       count +=1;
-    }, 300);
+    }, 200);
   });
 
   $("#infect-human-btn").click(function(event) {
-    console.log(people[0]);
     people[0].infectHuman();
   });
 
