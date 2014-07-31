@@ -4,17 +4,10 @@ describe("Person", function() {
       var newPerson = Object.create(Person);
       newPerson.initialize();
       newPerson.life.should.equal(100);
-      newPerson.speed.should.equal(1);
+      newPerson.speed.should.equal(1000);
     });
   });
 
-  describe("moveAround", function() {
-    it("creates a number between 1 and 100", function() {
-      var newPerson = Object.create(Person);
-      newPerson.moveAround();
-      newPerson.direction.should.be.within(1,100);
-    });
-  });
 
   describe("isZombie", function() {
     it("returns true if life is equal to zero", function() {

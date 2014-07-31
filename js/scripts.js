@@ -1,12 +1,11 @@
 var Person = {
   initialize: function() {
     this.life = 100;
-    this.speed = 1;
-    this.coordinates = [Math.ceil(Math.random() * 10), Math.ceil(Math.random() * 10)] //e.g. [3,6] for x and y coordinates
-  },
-
-  moveAround: function() {
-    this.direction = Math.ceil(Math.random() * 100)  //1to25=North, 25to50=East, 51to75=South, 76to100=West 
+    this.speed = 4;
+    this.coordinates = []; //e.g. [3,6] for x and y coordinates
+    this.readyToMove = true;
+    this.direction = 0;
+    this.player_olor = "blue"
   },
 
   isZombie: function() {
@@ -43,61 +42,103 @@ var Person = {
     this.life = 0;
   },
 
-  locationOnGrid: function(person) {
+  locationOnGrid: function() {
     if (this.isZombie) {
-      color = "blue";
+      this.player_color = "blue";
     } else {
-      color = "lime";
+      this.player_color = "lime";
     };
-    console.log(color);
+    console.log("#x"+ this.coordinates[0] + this.coordinates[1]);
+    $("#x"+ this.coordinates[1] + this.coordinates[0]).css({"color":this.player_color});
+  },
 
-    $("#x"+ person.coordinates[0] + person.coordinates[1]).css({"color":color});
+  atGridEdge: function() {
+    if (this.coordinates[0] === 1) {
+      return 'west';
+    } else if (this.coordinates[0] === gridSizeX -1) {
+      return 'east';
+    } else if (this.coordinates[1] === 1) {
+      return 'north';
+    } else if (this.coordinates[1] === gridSizeY -1) {
+      return 'south';
+    } else {
+      return false
+    };
+  },
+
+
+  moveAround: function() {
+    // var setDirection = false
+    // do {
+      this.direction = Math.ceil(Math.random() * 4)  //1=North, 2=East, 3=South, 4=West 
+    //   if atGridEdge() === "north" && this.direction === 1 ) {
+        // setDirection = true;
+    //   }
+      
+    // }
+    // while (setDirection = false);
+    // setDirection = true
+
+
+
+    if (this.direction === 1) {
+      //Move North
+      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"black"})
+      this.coordinates[0] = this.coordinates[0]-1;
+      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"blue"})
+    } else if (this.direction === 2 ) {
+      //Move East
+      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"black"})
+      this.coordinates[1] = this.coordinates[1]+1;
+      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"blue"})
+    } else if (this.direction === 3 ) {
+      //Move South
+      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"black"})
+      this.coordinates[0] = this.coordinates[0]+1;
+      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"blue"})
+    } else if (this.direction === 4) {
+      //Move West
+      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"black"})
+      this.coordinates[1] = this.coordinates[1]-1;
+      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"blue"})
+    }
   }
 };
 
-var people = []
-
+people = []
 
 $(document).ready(function(){
-  for (var j = 1; j < 11; j++) {
+
+  gridSizeX = 6
+  gridSizeY = 6
+
+  for (var j = 1; j < gridSizeY+1; j++) {
     $("#grid tbody").append("<tr id=row"+j+"></tr>")
-    for (var i = 1; i < 11; i++) { 
+    for (var i = 1; i < gridSizeX+1; i++) { 
       $("#row"+j).append("<td id=x"+j+i+">X</td>");
     };
   };
 
-
-
   $("#add-human-btn").click(function(event) {
     var newHuman = Object.create(Person);
     newHuman.initialize();
-    newHuman.locationOnGrid(newHuman)
-    people.push(newHuman);
+    newHuman.coordinates = [Math.ceil(Math.random() * gridSizeX), Math.ceil(Math.random() * gridSizeY)]  
+    console.log(newHuman.coordinates);
+    $("#x"+ newHuman.coordinates[0] + newHuman.coordinates[1]).css({"color":"blue"})
+
+    var count = 2
+
+    var timer = window.setInterval(function(){
+      if (count % newHuman.speed === 0) {
+        newHuman.moveAround();
+      };
+      count +=1
+    }, 300);
+
+
+
   });
 
-  var timer = window.setInterval( function() {
-    people[0].moveAround();
-    if (people[0].direction <= 25) {
-      //Move North
-      $("#x"+ people[0].coordinates[0] + people[0].coordinates[1]).css({"color":"black"})
-      people[0].coordinates[0] = people[0].coordinates[0]-1;
-      $("#x"+ people[0].coordinates[0] + people[0].coordinates[1]).css({"color":"blue"})
-    } else if (people[0].direction > 25 && people[0].direction <= 50 ) {
-      //Move East
-      $("#x"+ people[0].coordinates[0] + people[0].coordinates[1]).css({"color":"black"})
-      people[0].coordinates[1] = people[0].coordinates[1]+1;
-      $("#x"+ people[0].coordinates[0] + people[0].coordinates[1]).css({"color":"blue"})
-    } else if (people[0].direction > 50 && people[0].direction <= 75 ) {
-      //Move South
-      $("#x"+ people[0].coordinates[0] + people[0].coordinates[1]).css({"color":"black"})
-      people[0].coordinates[0] = people[0].coordinates[0]+1;
-      $("#x"+ people[0].coordinates[0] + people[0].coordinates[1]).css({"color":"blue"})
-    } else if (people[0].direction > 75) {
-      //Move West
-      $("#x"+ people[0].coordinates[0] + people[0].coordinates[1]).css({"color":"black"})
-      people[0].coordinates[1] = people[0].coordinates[1]-1;
-      $("#x"+ people[0].coordinates[0] + people[0].coordinates[1]).css({"color":"blue"})
 
-    };
-  }, 1000);
+
 });
