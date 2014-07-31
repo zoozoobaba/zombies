@@ -1,4 +1,11 @@
+body {
+  font-family: sans-serif;
+}
 table {
   border: black solid 1px;
-  width: auto;
+}
+
+td {
+  width: 2px;
+  height: 4px;
 }

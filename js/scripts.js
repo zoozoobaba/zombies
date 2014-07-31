@@ -126,19 +126,15 @@ $(document).ready(function(){
     $("#x"+ newHuman.coordinates[0] + newHuman.coordinates[1]).css({"background-color":newHuman.player_color})
 
     var count = 2
-
     var timer = window.setInterval(function(){
       if (count % newHuman.speed === 0) {
         newHuman.moveAround();
       };
 
-
       people.forEach(function(person) {
         if ( (newHuman.nextTo(person.coordinates) === "OneSpace") && person.isZombie()) {
           newHuman.infectHuman();
-        };
-
-        if ( (newHuman.nextTo(person.coordinates) === "TwoSpace") && person.isZombie() && !newHuman.isZombie()) {
+        } else if ( (newHuman.nextTo(person.coordinates) === "TwoSpace") && person.isZombie() && !newHuman.isZombie()) {
           newHuman.speed = 2;
         };
 
