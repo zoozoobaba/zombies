@@ -1,3 +1,5 @@
+
+
 var Person = {
   initialize: function() {
     this.life = 100;
@@ -107,10 +109,10 @@ var Person = {
 
 var people = []
 
-$(document).ready(function(){
-
   gridSizeX = 25;
   gridSizeY = 25;
+$(document).ready(function(){
+
   for (var j = 1; j < gridSizeY+1; j++) {
     $("#grid tbody").append("<tr id=row"+j+"></tr>")
     for (var i = 1; i < gridSizeX+1; i++) {
@@ -137,7 +139,6 @@ $(document).ready(function(){
         } else if ( (newHuman.nextTo(person.coordinates) === "TwoSpace") && person.isZombie() && !newHuman.isZombie()) {
           newHuman.speed = 2;
         };
-
       });
 
       count +=1;

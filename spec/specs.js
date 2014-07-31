@@ -4,7 +4,7 @@ describe("Person", function() {
       var newPerson = Object.create(Person);
       newPerson.initialize();
       newPerson.life.should.equal(100);
-      newPerson.speed.should.equal(1000);
+      newPerson.speed.should.equal(4);
     });
   });
 
@@ -30,25 +30,25 @@ describe("Person", function() {
       newPerson.nextTo([3,1]).should.equal("TwoSpace");
       newPerson.nextTo([3,5]).should.equal("TwoSpace");
       newPerson.nextTo([1,3]).should.equal("TwoSpace");
-      newPerson.nextTo([5,3]).should.equal("TwoSpace");      
+      newPerson.nextTo([5,3]).should.equal("TwoSpace");
       newPerson.nextTo([6,3]).should.equal(false);
     });
   });
 
-  describe("humanAttacked", function() {
-    it("returns true if the player is next to the zombie", function() {
-      var newPerson = Object.create(Person);
-      newPerson.coordinates = [3,3];
-      newPerson.humanAttacked([3,2]).should.equal(true);
-      newPerson.humanAttacked([1,3]).should.equal(false);
-    });
-  });
 
   describe("infectHuman", function () {
     it("reduces the life of a human to zero", function() {
       var newPerson = Object.create(Person);
       newPerson.infectHuman();
       newPerson.life.should.equal(0);
+    });
+  });
+
+  describe("atGridEdge", function () {
+    it("returns returns the location of the player when at the edge of the grid", function() {
+      var newPerson = Object.create(Person);
+      newPerson.coordinates = [1,1];
+      newPerson.atGridEdge().should.equal("nw");
     });
   });
 
