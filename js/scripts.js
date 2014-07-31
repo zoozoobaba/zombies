@@ -5,7 +5,7 @@ var Person = {
     this.coordinates = []; //e.g. [3,6] for x and y coordinates
     this.readyToMove = true;
     this.direction = 0;
-    this.player_olor = "blue"
+    this.player_color = "blue"
   },
 
   isZombie: function() {
@@ -18,11 +18,11 @@ var Person = {
 
   nextTo: function(othersCoordintes) {
     if ( (this.coordinates[0] == othersCoordintes[0]) && ( (this.coordinates[1] == othersCoordintes[1]+1) || (this.coordinates[1] == othersCoordintes[1]-1) ) ) { //check above and below -- one space
-      return "OneSpace"; 
-    } else if ( (this.coordinates[1] == othersCoordintes[1]) && ( (this.coordinates[0] == othersCoordintes[0]+1) || (this.coordinates[0] == othersCoordintes[0]-1) ) ) { //check left and right -- one space 
+      return "OneSpace";
+    } else if ( (this.coordinates[1] == othersCoordintes[1]) && ( (this.coordinates[0] == othersCoordintes[0]+1) || (this.coordinates[0] == othersCoordintes[0]-1) ) ) { //check left and right -- one space
       return "OneSpace";
     } else if ( (this.coordinates[0] == othersCoordintes[0]) && ( (this.coordinates[1] == othersCoordintes[1]+2) || (this.coordinates[1] == othersCoordintes[1]-2) ) ) { //check above and below -- two space
-      return "TwoSpace"; 
+      return "TwoSpace";
     } else if ( (this.coordinates[1] == othersCoordintes[1]) && ( (this.coordinates[0] == othersCoordintes[0]+2) || (this.coordinates[0] == othersCoordintes[0]-2) ) ) { //check left and right -- two space
       return "TwoSpace";
     } else {
@@ -53,14 +53,23 @@ var Person = {
   },
 
   atGridEdge: function() {
-    if (this.coordinates[0] === 1) {
-      return 'west';
-    } else if (this.coordinates[0] === gridSizeX -1) {
-      return 'east';
+    console.log(this.coordinates)
+    if (this.coordinates[1] === 1 && this.coordinates[0] === 1) {
+      return 'nw';
+    } else if (this.coordinates[1] === 1 && this.coordinates[0] === gridSizeX) {
+      return 'ne';
+    } else if (this.coordinates[1] === gridSizeY && this.coordinates[0] === 1) {
+      return 'sw';
+    } else if (this.coordinates[1] === gridSizeY && this.coordinates[0] === gridSizeX) {
+      return 'se';
     } else if (this.coordinates[1] === 1) {
-      return 'north';
-    } else if (this.coordinates[1] === gridSizeY -1) {
-      return 'south';
+      return 'n';
+    } else if (this.coordinates[0] === gridSizeX) {
+      return 'e';
+    } else if (this.coordinates[1] === gridSizeY) {
+      return 's';
+    } else if (this.coordinates[0] === 1) {
+      return 'w';
     } else {
       return false
     };
@@ -68,13 +77,14 @@ var Person = {
 
 
   moveAround: function() {
+    console.log(this.atGridEdge());
     // var setDirection = false
     // do {
-      this.direction = Math.ceil(Math.random() * 4)  //1=North, 2=East, 3=South, 4=West 
+    this.direction = Math.ceil(Math.random() * 4)  //1=North, 2=East, 3=South, 4=West
     //   if atGridEdge() === "north" && this.direction === 1 ) {
         // setDirection = true;
     //   }
-      
+
     // }
     // while (setDirection = false);
     // setDirection = true
@@ -114,17 +124,16 @@ $(document).ready(function(){
 
   for (var j = 1; j < gridSizeY+1; j++) {
     $("#grid tbody").append("<tr id=row"+j+"></tr>")
-    for (var i = 1; i < gridSizeX+1; i++) { 
-      $("#row"+j).append("<td id=x"+j+i+">X</td>");
+    for (var i = 1; i < gridSizeX+1; i++) {
+      $("#row"+j).append("<td id=x"+i+j+">X</td>");
     };
   };
 
   $("#add-human-btn").click(function(event) {
     var newHuman = Object.create(Person);
     newHuman.initialize();
-    newHuman.coordinates = [Math.ceil(Math.random() * gridSizeX), Math.ceil(Math.random() * gridSizeY)]  
-    console.log(newHuman.coordinates);
-    $("#x"+ newHuman.coordinates[0] + newHuman.coordinates[1]).css({"color":"blue"})
+    newHuman.coordinates = [Math.ceil(Math.random() * gridSizeX), Math.ceil(Math.random() * gridSizeY)]
+    $("#x"+ newHuman.coordinates[0] + newHuman.coordinates[1]).css({"color":newHuman.player_color})
 
     var count = 2
 
