@@ -74,31 +74,46 @@ var Person = {
     };
   },
 
+  directionToMove: function() {
+    this.direction = Math.ceil(Math.random() * 4)  //1=North, 2=East, 3=South, 4=West
+
+    if (this.atGridEdge() === "ne" && (this.direction === 1 || this.direction === 2) ) {
+      this.direction =  (3,4)[Math.floor(Math.random()*2)];
+      console.log("ne");
+      console.log(this.direction);
+    } else if (this.atGridEdge() === "nw" && (this.direction === 1 || this.direction === 4) ) {
+      this.direction =  (2,3)[Math.floor(Math.random()*2)];
+      console.log("nw");
+      console.log(this.direction);
+    } else if (this.atGridEdge() === "se" && (this.direction === 2 || this.direction === 3) ) {
+      this.direction =  (1,4)[Math.floor(Math.random()*2)];
+      console.log("se");
+      console.log(this.direction);
+    } else if (this.atGridEdge() === "sw" && (this.direction === 3 || this.direction === 4) ) {
+      this.direction =  (1,2)[Math.floor(Math.random()*2)];
+      console.log("sw");
+      console.log(this.direction);
+    } else if (this.atGridEdge() === "n" && this.direction === 1) {
+      this.direction =  (2,3,4)[Math.floor(Math.random()*3)];
+      console.log("n");
+      console.log(this.direction);
+    } else if (this.atGridEdge() === "e" && this.direction === 2) {
+      this.direction =  (1,3,4)[Math.floor(Math.random()*3)];
+      console.log("e");
+      console.log(this.direction);
+    } else if (this.atGridEdge() === "s" && this.direction === 3) {
+      this.direction =  (1,2,4)[Math.floor(Math.random()*3)];
+      console.log("s");
+      console.log(this.direction);
+    } else if (this.atGridEdge() === "w" && this.direction === 4) {
+      this.direction =  (1,2,3)[Math.floor(Math.random()*3)];
+      console.log("w");
+      console.log(this.direction);
+    };
+  },
 
   moveAround: function() {
-    var setDirection = "don't move"
-
-    // do {
-      this.direction = Math.ceil(Math.random() * 4)  //1=North, 2=East, 3=South, 4=West
-
-    //   if (this.direction === 1) {
-    //     console.log("one");
-    //   } else if (this.direction === 2) {
-    //     console.log("two");
-    //   } else if (this.direction === 3) {
-    //     console.log("three");
-    //   } else {
-    //     console.log("four");
-    //     setDirection = "move";
-    //   };
-
-    // }
-    // while (setDirection = "don't move");
-
-    // console.log("EXITED FROM DO WHILE");
-
-
-
+    this.directionToMove()
     if (this.direction === 1) {
       //Move North
       $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"color":"black"})
