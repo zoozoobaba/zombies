@@ -3,9 +3,7 @@ var Universe = {
     this.people = [];
     this.gridSizeX = 25;
     this.gridSizeY = 25;
-  },
-
-
+  }
 };
 
 var Person = {
