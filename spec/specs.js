@@ -12,8 +12,10 @@ describe("Universe", function() {
 describe("Person", function() {
   describe("initialize", function() {
     it("initializes a person object", function() {
+      var newUniverse = Object.create(Universe);
+      newUniverse.initialize();
       var newPerson = Object.create(Person);
-      newPerson.initialize();
+      newPerson.initialize(newUniverse);
       newPerson.life.should.equal(100);
       newPerson.speed.should.equal(4);
     });
@@ -55,11 +57,20 @@ describe("Person", function() {
     });
   });
 
-  describe("atGridEdge", function () {
+  describe("atGridEdge", function() {
     it("returns returns the location of the player when at the edge of the grid", function() {
       var newPerson = Object.create(Person);
       newPerson.coordinates = [1,1];
       newPerson.atGridEdge().should.equal("nw");
+    });
+  });
+
+  describe("directionToMove", function() {
+    it("return 2, 3 or 4", function() {
+      var newPerson = Object.create(Person);
+      newPerson.coordinates = [3,1];
+      newPerson.directionToMove()
+      newPerson.direction.should.be.within(2,4);
     });
   });
 
