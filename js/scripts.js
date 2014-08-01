@@ -71,21 +71,21 @@ var Person = {
     this.direction = Math.ceil(Math.random() * 4)  //1=North, 2=East, 3=South, 4=West
 
     if (this.atGridEdge() === "ne" && (this.direction === 1 || this.direction === 2) ) {
-      this.direction =  (3,4)[Math.floor(Math.random()*2)];
+      this.direction =  [3,4][Math.floor(Math.random()*2)];
     } else if (this.atGridEdge() === "nw" && (this.direction === 1 || this.direction === 4) ) {
-      this.direction =  (2,3)[Math.floor(Math.random()*2)];
+      this.direction =  [2,3][Math.floor(Math.random()*2)];
     } else if (this.atGridEdge() === "se" && (this.direction === 2 || this.direction === 3) ) {
-      this.direction =  (1,4)[Math.floor(Math.random()*2)];
+      this.direction =  [1,4][Math.floor(Math.random()*2)];
     } else if (this.atGridEdge() === "sw" && (this.direction === 3 || this.direction === 4) ) {
-      this.direction =  (1,2)[Math.floor(Math.random()*2)];
+      this.direction =  [1,2][Math.floor(Math.random()*2)];
     } else if (this.atGridEdge() === "n" && this.direction === 1) {
-      this.direction =  (2,3,4)[Math.floor(Math.random()*3)];
+      this.direction =  [2,3,4][Math.floor(Math.random()*3)];
     } else if (this.atGridEdge() === "e" && this.direction === 2) {
-      this.direction =  (1,3,4)[Math.floor(Math.random()*3)];
+      this.direction =  [1,3,4][Math.floor(Math.random()*3)];
     } else if (this.atGridEdge() === "s" && this.direction === 3) {
-      this.direction =  (1,2,4)[Math.floor(Math.random()*3)];
+      this.direction =  [1,2,4][Math.floor(Math.random()*3)];
     } else if (this.atGridEdge() === "w" && this.direction === 4) {
-      this.direction =  (1,2,3)[Math.floor(Math.random()*3)];
+      this.direction =  [1,2,3][Math.floor(Math.random()*3)];
     };
   },
 
