@@ -9,12 +9,14 @@ var Universe = {
 };
 
 var Person = {
-  initialize: function() {
+  initialize: function(universe) {
     this.life = 100;
     this.speed = 4;
     this.coordinates = []; //e.g. [3,6] for x and y coordinates
     this.direction = 0;
     this.player_color = "blue"
+    this.gridSizeX = universe.gridSizeX
+    this.gridSizeY = universe.gridSizeY
   },
 
   isZombie: function() {
@@ -42,23 +44,23 @@ var Person = {
   infectHuman: function() {
     this.life = 0;
     this.player_color = "lime";
-    this.speed = 7;
+    this.speed = 6;
   },
 
   atGridEdge: function() {
     if (this.coordinates[1] === 1 && this.coordinates[0] === 1) {
       return "nw";
-    } else if (this.coordinates[1] === 1 && this.coordinates[0] === newUniverse.gridSizeX) {
+    } else if (this.coordinates[1] === 1 && this.coordinates[0] === (this.gridSizeX)) {
       return "ne";
-    } else if (this.coordinates[1] === newUniverse.gridSizeY && this.coordinates[0] === 1) {
+    } else if (this.coordinates[1] === (this.gridSizeY) && this.coordinates[0] === 1) {
       return "sw";
-    } else if (this.coordinates[1] === gridSizeY && this.coordinates[0] === newUniverse.gridSizeX) {
+    } else if (this.coordinates[1] === this.gridSizeY && this.coordinates[0] === (this.gridSizeX)) {
       return "se";
     } else if (this.coordinates[1] === 1) {
       return "n";
-    } else if (this.coordinates[0] === newUniverse.gridSizeX) {
+    } else if (this.coordinates[0] === (this.gridSizeX)) {
       return "e";
-    } else if (this.coordinates[1] === newUniverse.gridSizeY) {
+    } else if (this.coordinates[1] === (this.gridSizeY)) {
       return "s";
     } else if (this.coordinates[0] === 1) {
       return "w";
@@ -91,38 +93,36 @@ var Person = {
 
   moveAround: function() {
     this.directionToMove()
+    $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"background-color":"transparent"})
     if (this.direction === 1) {
       //Move North
-      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"background-color":"transparent"})
       this.coordinates[1] = this.coordinates[1]-1;
       $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"background-color":this.player_color})
     } else if (this.direction === 2 ) {
       //Move East
-      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"background-color":"transparent"})
       this.coordinates[0] = this.coordinates[0]+1;
       $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"background-color":this.player_color})
     } else if (this.direction === 3 ) {
       //Move South
-      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"background-color":"transparent"})
       this.coordinates[1] = this.coordinates[1]+1;
       $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"background-color":this.player_color})
     } else if (this.direction === 4) {
       //Move West
-      $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"background-color":"transparent"})
       this.coordinates[0] = this.coordinates[0]-1;
       $("#x"+ this.coordinates[0] + this.coordinates[1]).css({"background-color":this.player_color})
     }
   }
 };
 
-var people = []
+ var people = []
 
 
 $(document).ready(function(){
 
   var newUniverse = Object.create(Universe);
-  newUniverse.initialize()
+  newUniverse.initialize();
 
+  //creates the grid in HTML as a table
   for (var j = 1; j < newUniverse.gridSizeY+1; j++) {
     $("#grid tbody").append("<tr id=row"+j+"></tr>")
     for (var i = 1; i < newUniverse.gridSizeX+1; i++) {
@@ -132,8 +132,10 @@ $(document).ready(function(){
 
   $("#add-human-btn").click(function(event) {
     var newHuman = Object.create(Person);
-    newHuman.initialize();
-    people.push(newHuman);
+
+    newHuman.initialize(newUniverse);
+    newUniverse.people.push(newHuman);
+
     newHuman.coordinates = [Math.ceil(Math.random() * newUniverse.gridSizeX), Math.ceil(Math.random() * newUniverse.gridSizeY)]
     $("#x"+ newHuman.coordinates[0] + newHuman.coordinates[1]).css({"background-color":newHuman.player_color})
 
@@ -143,7 +145,7 @@ $(document).ready(function(){
         newHuman.moveAround();
       };
 
-      people.forEach(function(person) {
+      newUniverse.people.forEach(function(person) {
         if ( (newHuman.nextTo(person.coordinates) === "OneSpace") && person.isZombie()) {
           newHuman.infectHuman();
         } else if ( (newHuman.nextTo(person.coordinates) === "TwoSpace") && person.isZombie() && !newHuman.isZombie()) {
@@ -156,7 +158,7 @@ $(document).ready(function(){
   });
 
   $("#infect-human-btn").click(function(event) {
-    people[0].infectHuman();
+    newUniverse.people[0].infectHuman();
   });
 
 });
