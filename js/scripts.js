@@ -1,4 +1,12 @@
+var Universe = {
+  initialize: function() {
+    this.people = [];
+    this.gridSizeX = 25;
+    this.gridSizeY = 25;
+  },
 
+
+};
 
 var Person = {
   initialize: function() {
@@ -40,17 +48,17 @@ var Person = {
   atGridEdge: function() {
     if (this.coordinates[1] === 1 && this.coordinates[0] === 1) {
       return "nw";
-    } else if (this.coordinates[1] === 1 && this.coordinates[0] === gridSizeX) {
+    } else if (this.coordinates[1] === 1 && this.coordinates[0] === newUniverse.gridSizeX) {
       return "ne";
-    } else if (this.coordinates[1] === gridSizeY && this.coordinates[0] === 1) {
+    } else if (this.coordinates[1] === newUniverse.gridSizeY && this.coordinates[0] === 1) {
       return "sw";
-    } else if (this.coordinates[1] === gridSizeY && this.coordinates[0] === gridSizeX) {
+    } else if (this.coordinates[1] === gridSizeY && this.coordinates[0] === newUniverse.gridSizeX) {
       return "se";
     } else if (this.coordinates[1] === 1) {
       return "n";
-    } else if (this.coordinates[0] === gridSizeX) {
+    } else if (this.coordinates[0] === newUniverse.gridSizeX) {
       return "e";
-    } else if (this.coordinates[1] === gridSizeY) {
+    } else if (this.coordinates[1] === newUniverse.gridSizeY) {
       return "s";
     } else if (this.coordinates[0] === 1) {
       return "w";
@@ -109,13 +117,15 @@ var Person = {
 
 var people = []
 
-  gridSizeX = 25;
-  gridSizeY = 25;
+
 $(document).ready(function(){
 
-  for (var j = 1; j < gridSizeY+1; j++) {
+  var newUniverse = Object.create(Universe);
+  newUniverse.initialize()
+
+  for (var j = 1; j < newUniverse.gridSizeY+1; j++) {
     $("#grid tbody").append("<tr id=row"+j+"></tr>")
-    for (var i = 1; i < gridSizeX+1; i++) {
+    for (var i = 1; i < newUniverse.gridSizeX+1; i++) {
       $("#row"+j).append("<td id=x"+i+j+"></td>");
     };
   };
@@ -124,7 +134,7 @@ $(document).ready(function(){
     var newHuman = Object.create(Person);
     newHuman.initialize();
     people.push(newHuman);
-    newHuman.coordinates = [Math.ceil(Math.random() * gridSizeX), Math.ceil(Math.random() * gridSizeY)]
+    newHuman.coordinates = [Math.ceil(Math.random() * newUniverse.gridSizeX), Math.ceil(Math.random() * newUniverse.gridSizeY)]
     $("#x"+ newHuman.coordinates[0] + newHuman.coordinates[1]).css({"background-color":newHuman.player_color})
 
     var count = 2

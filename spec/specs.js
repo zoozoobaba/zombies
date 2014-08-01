@@ -1,3 +1,14 @@
+describe("Universe", function() {
+  describe("initialize", function() {
+    it("initializes a universe object", function() {
+      var newUniverse = Object.create(Universe);
+      newUniverse.initialize();
+      newUniverse.gridSizeX.should.equal(25);
+      newUniverse.gridSizeY.should.equal(25);
+    });
+  });
+});
+
 describe("Person", function() {
   describe("initialize", function() {
     it("initializes a person object", function() {
